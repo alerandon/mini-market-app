@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const connectDB = async () => {
   const DB_USER = process.env.API_DB_USER || 'mongo-user';
   const DB_PASSWORD = process.env.API_DB_PASSWORD || 'mongo-password';
-  const DB_HOST = process.env.API_DB_HOST || 'localhost';
+  const DB_HOST = process.env.API_DB_HOST || 'mongodb';
   const DB_PORT = process.env.API_DB_PORT || '27017';
   const DB_NAME = process.env.API_DB_NAME || 'mini-market-app';
 
