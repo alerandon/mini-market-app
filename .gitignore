@@ -1,0 +1,23 @@
+# Ignorar directorios de dependencias
+**/node_modules/
+
+# Ignorar archivos y directorios de compilación
+**/dist/
+
+# Ignorar archivos de log
+**/*.log
+
+# Ignorar archivos de variables de entorno
+**/.env
+
+# Ignorar caches y artefactos de Expo (para mobile)
+**/.expo/
+**/.expo-shared/
+**/web-build/
+**/.cache/
+
+# Ignorar archivos del sistema
+.DS_Store
+
+# Ignorar archivos de Turbo
+.turbo/
