@@ -6,7 +6,7 @@ import router from './router';
 dotenv.config();
 
 const app = express();
-const PORT = Number(process.env.API_PORT) || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 await databaseConfig();
 
 app.use(express.json());

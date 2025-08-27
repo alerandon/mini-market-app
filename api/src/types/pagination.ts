@@ -1,6 +1,10 @@
-export interface PaginationOptions {
+export interface ProductPaginationOptions {
   page?: number;
   limit?: number;
+  search?: string;
+  sort?: 'price' | 'name';
+  order?: 'asc' | 'desc';
+  available?: boolean;
 }
 
 export interface PaginatedResult<T> {

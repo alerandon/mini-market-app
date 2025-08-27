@@ -1,8 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface IProduct extends Document {
-  id: string;
   name: string;
   price: number;
   isAvailable: boolean;
@@ -12,12 +10,6 @@ export interface IProduct extends Document {
 
 const productSchema = new Schema<IProduct>(
   {
-    id: {
-      type: String,
-      default: () => uuidv4(),
-      unique: true,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
@@ -45,13 +37,10 @@ const productSchema = new Schema<IProduct>(
       trim: true,
     },
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true },
 );
 
-// productSchema.index({ id: 1 });
-// productSchema.index({ category: 1 });
-// productSchema.index({ isAvailable: 1 });
+productSchema.index({ category: 1 });
+productSchema.index({ isAvailable: 1 });
 
 export const Product = model<IProduct>('Product', productSchema);
