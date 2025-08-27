@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { FilterOptions } from '@/types';
+import { SearchIcon, XIcon } from '@/components/ui';
 
 interface ProductFiltersProps {
   filters: FilterOptions;
@@ -15,9 +16,6 @@ export default function ProductFilters({
   isLoading = false,
 }: ProductFiltersProps) {
   const [localFilters, setLocalFilters] = useState<FilterOptions>(filters);
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
-    null,
-  );
 
   // Actualizar filtros locales cuando cambien los filtros externos
   useEffect(() => {
@@ -27,18 +25,12 @@ export default function ProductFilters({
   const handleSearchChange = (value: string) => {
     const newFilters = { ...localFilters, search: value, page: 1 };
     setLocalFilters(newFilters);
+  };
 
-    // Limpiar timeout anterior
-    if (searchTimeout) {
-      clearTimeout(searchTimeout);
-    }
-
-    // Aplicar búsqueda con debounce de 500ms
-    const timeout = setTimeout(() => {
-      onFiltersChange(newFilters);
-    }, 500);
-
-    setSearchTimeout(timeout);
+  // Función para búsqueda manual inmediata
+  const handleManualSearch = () => {
+    // Aplicar filtros inmediatamente
+    onFiltersChange(localFilters);
   };
 
   const handleSortChange = (sort: 'price' | 'name') => {
@@ -72,20 +64,14 @@ export default function ProductFilters({
       order: 'asc',
       available: undefined,
       page: 1,
-      limit: 12,
+      limit: 10,
     };
+
+    // Actualizar filtros locales primero
     setLocalFilters(resetFilters);
+    // Luego notificar el cambio
     onFiltersChange(resetFilters);
   };
-
-  // Limpiar timeout al desmontar el componente
-  useEffect(() => {
-    return () => {
-      if (searchTimeout) {
-        clearTimeout(searchTimeout);
-      }
-    };
-  }, [searchTimeout]);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
@@ -101,49 +87,50 @@ export default function ProductFilters({
         >
           Buscar por nombre
         </label>
-        <div className="relative">
-          <input
-            type="text"
-            id="search"
-            value={localFilters.search}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder="Escribe el nombre del producto..."
-            disabled={isLoading}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-gray-900 bg-white"
-          />
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg
-              className="h-5 w-5 text-gray-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-          {localFilters.search && (
-            <button
-              onClick={() => handleSearchChange('')}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              id="search"
+              value={localFilters.search}
+              onChange={(e) => {
+                handleSearchChange(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleManualSearch();
+                }
+              }}
+              placeholder="Escribe el nombre del producto..."
               disabled={isLoading}
-            >
-              <svg
-                className="h-5 w-5 text-gray-400 hover:text-gray-600"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-gray-900 bg-white"
+            />
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <SearchIcon className="text-gray-400" />
+            </div>
+            {localFilters.search && (
+              <button
+                onClick={() => handleSearchChange('')}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                disabled={isLoading}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-          )}
+                <XIcon className="text-gray-400 hover:text-gray-600" />
+              </button>
+            )}
+          </div>
+          <button
+            onClick={handleManualSearch}
+            disabled={isLoading}
+            className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 font-medium"
+          >
+            <SearchIcon size={16} />
+            Buscar
+          </button>
         </div>
+        <p className="mt-1 text-xs text-gray-500">
+          Escribe y presiona "Buscar" o Enter para buscar productos
+        </p>
       </div>
 
       {/* Filtros en grid */}

@@ -27,7 +27,6 @@ export default function ProductsPage() {
   const { products, loading, error, totalPages, totalItems, refetch } =
     useProducts(filters);
   const { handlePageChange, handleFiltersChange } = usePagination({
-    filters,
     setFilters,
   });
 

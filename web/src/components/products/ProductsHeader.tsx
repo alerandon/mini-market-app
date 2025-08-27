@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ChevronLeftIcon } from '@/components/ui';
 
 export default function ProductsHeader() {
   return (
@@ -17,7 +18,8 @@ export default function ProductsHeader() {
           href="/"
           className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors"
         >
-          ← Volver al inicio
+          <ChevronLeftIcon className="mr-2" />
+          Volver al inicio
         </Link>
       </div>
     </div>
