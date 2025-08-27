@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import connectDB from './database';
-import { Product } from './features/products/product.model';
+import connectDB from '../database';
+import { Product } from '../features/products/product.model';
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const seedDatabase = async () => {
   try {
-    const productsPath = path.resolve(__dirname, 'data/products.json');
+    const productsPath = path.resolve(__dirname, '../data/products.json');
     const sampleProducts = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
     console.log('🌱 Iniciando proceso de seed...');
 
