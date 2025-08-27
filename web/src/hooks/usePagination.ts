@@ -6,12 +6,10 @@ interface UsePaginationResult {
 }
 
 interface UsePaginationProps {
-  filters: FilterOptions;
   setFilters: React.Dispatch<React.SetStateAction<FilterOptions>>;
 }
 
 export function usePagination({
-  filters,
   setFilters,
 }: UsePaginationProps): UsePaginationResult {
   const handlePageChange = (page: number) => {
