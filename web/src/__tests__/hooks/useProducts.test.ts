@@ -1,7 +1,6 @@
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { useProducts } from '../../hooks/useProducts';
-import { createMockFetch, createMockFetchError } from '../mocks/utils';
-import { mockApiResponse, mockFilters } from '../mocks/products';
+import { mockApiResponse, mockFilters } from '../__mocks__/products';
 
 // Mock de getProducts
 jest.mock('../../lib/api', () => ({

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ProductCard from '@/components/products/ProductCard';
-import { mockProduct } from '@//__tests__/mocks/products';
+import { mockProduct } from '@/__tests__/__mocks__/products';
 
 describe('ProductCard', () => {
   it('renderiza la información básica del producto', () => {
