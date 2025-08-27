@@ -1,0 +1,22 @@
+{
+  "extends": ["next/core-web-vitals", "../.eslintrc.json"],
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/__tests__/**/*", "**/*.test.*", "**/__mocks__/**/*"],
+      "rules": {
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "no-undef": "off"
+      }
+    }
+  ]
+}

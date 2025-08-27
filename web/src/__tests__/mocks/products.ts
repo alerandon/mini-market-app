@@ -1,6 +1,6 @@
 // @jest-environment node
 // Este archivo contiene mocks de datos para testing
-import { Product } from '@/types/product';
+import { Product } from '@mini-market/shared';
 
 export const mockProduct: Product = {
   _id: '507f1f77bcf86cd799439011',

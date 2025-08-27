@@ -1,28 +1,9 @@
+import { Product, PaginatedResponse } from '@mini-market/shared';
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
-export interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  isAvailable: boolean;
-  category: string;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface PaginationResponse<T> {
-  data: T[];
-  pagination: {
-    currentPage: number;
-    totalPages: number;
-    totalItems: number;
-    itemsPerPage: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
-}
+export type { Product };
 
 class ApiClient {
   private baseUrl: string;
@@ -81,7 +62,7 @@ class ApiClient {
     sort?: 'price' | 'name',
     order?: 'asc' | 'desc',
     available?: boolean,
-  ): Promise<PaginationResponse<Product>> {
+  ): Promise<PaginatedResponse<Product>> {
     const params = new URLSearchParams();
     params.set('page', page.toString());
     params.set('limit', limit.toString());
@@ -99,7 +80,7 @@ class ApiClient {
       params.set('available', available.toString());
     }
 
-    return this.request<PaginationResponse<Product>>(
+    return this.request<PaginatedResponse<Product>>(
       `/products?${params.toString()}`,
     );
   }
@@ -115,9 +96,9 @@ class ApiClient {
     query: string,
     page: number = 1,
     limit: number = 20,
-  ): Promise<PaginationResponse<Product>> {
+  ): Promise<PaginatedResponse<Product>> {
     const encodedQuery = encodeURIComponent(query);
-    return this.request<PaginationResponse<Product>>(
+    return this.request<PaginatedResponse<Product>>(
       `/products/search?q=${encodedQuery}&page=${page}&limit=${limit}`,
     );
   }
@@ -127,9 +108,9 @@ class ApiClient {
     category: string,
     page: number = 1,
     limit: number = 20,
-  ): Promise<PaginationResponse<Product>> {
+  ): Promise<PaginatedResponse<Product>> {
     const encodedCategory = encodeURIComponent(category);
-    return this.request<PaginationResponse<Product>>(
+    return this.request<PaginatedResponse<Product>>(
       `/products?category=${encodedCategory}&page=${page}&limit=${limit}`,
     );
   }

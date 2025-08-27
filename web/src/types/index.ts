@@ -1,5 +1,6 @@
-// Re-exportar todos los tipos
-export * from './product';
-export * from './pagination';
+// Re-exportar tipos compartidos
+export * from '@mini-market/shared';
+
+// Re-exportar tipos específicos del web
 export * from './api';
 export * from './ui';

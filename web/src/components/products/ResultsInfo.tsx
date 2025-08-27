@@ -1,9 +1,9 @@
-import { FilterOptions } from '@/types';
+import { ProductFilterOptions } from '@mini-market/shared';
 
 interface ResultsInfoProps {
   totalItems: number;
   currentResultsCount: number;
-  filters: FilterOptions;
+  filters: ProductFilterOptions;
   loading: boolean;
   error: string | null;
 }
@@ -25,7 +25,9 @@ export default function ResultsInfo({
         {totalItems > 0 ? (
           <>
             Mostrando {currentResultsCount} de {totalItems} productos
-            {filters.search && <span> que contienen "{filters.search}"</span>}
+            {filters.search && (
+              <span> que contienen &quot;{filters.search}&quot;</span>
+            )}
             {filters.available !== undefined && (
               <span> ({filters.available ? 'con stock' : 'sin stock'})</span>
             )}

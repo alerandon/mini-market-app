@@ -1,12 +1,12 @@
-import { FilterOptions } from '@/types';
+import { ProductFilterOptions } from '@mini-market/shared';
 
 interface UsePaginationResult {
   handlePageChange: (page: number) => void;
-  handleFiltersChange: (newFilters: FilterOptions) => void;
+  handleFiltersChange: (newFilters: ProductFilterOptions) => void;
 }
 
 interface UsePaginationProps {
-  setFilters: React.Dispatch<React.SetStateAction<FilterOptions>>;
+  setFilters: React.Dispatch<React.SetStateAction<ProductFilterOptions>>;
 }
 
 export function usePagination({
@@ -17,7 +17,7 @@ export function usePagination({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleFiltersChange = (newFilters: FilterOptions) => {
+  const handleFiltersChange = (newFilters: ProductFilterOptions) => {
     setFilters(newFilters);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

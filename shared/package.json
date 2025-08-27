@@ -1,0 +1,22 @@
+{
+  "name": "@mini-market/shared",
+  "version": "1.0.0",
+  "description": "Tipos y utilidades compartidas entre API y Web",
+  "main": "types.ts",
+  "types": "types.ts",
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "types",
+    "shared",
+    "typescript",
+    "mini-market"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

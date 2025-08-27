@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import * as productController from '../../features/products/product.controller';
 import * as productService from '../../features/products/product.service';
-import { mockProduct, mockProducts, createMockPaginatedResult } from '../mocks';
+import {
+  mockProduct,
+  mockProducts,
+  createMockPaginatedProductResult,
+} from '../mocks';
 
 jest.mock('../../features/products/product.service');
 const mockProductService = productService as jest.Mocked<typeof productService>;
@@ -27,7 +31,7 @@ describe('Product Controller', () => {
 
   describe('getProducts', () => {
     it('debería retornar productos con paginación por defecto', async () => {
-      const mockResult = createMockPaginatedResult(mockProducts);
+      const mockResult = createMockPaginatedProductResult(mockProducts);
       mockProductService.getProducts.mockResolvedValue(mockResult);
 
       mockRequest.query = {};
@@ -46,7 +50,7 @@ describe('Product Controller', () => {
     });
 
     it('debería usar parámetros de query personalizados', async () => {
-      const mockResult = createMockPaginatedResult(
+      const mockResult = createMockPaginatedProductResult(
         mockProducts.slice(0, 2),
         2,
         2,
@@ -69,7 +73,7 @@ describe('Product Controller', () => {
     });
 
     it('debería manejar valores de query inválidos', async () => {
-      const mockResult = createMockPaginatedResult(mockProducts);
+      const mockResult = createMockPaginatedProductResult(mockProducts);
       mockProductService.getProducts.mockResolvedValue(mockResult);
 
       mockRequest.query = { page: 'invalid', limit: 'invalid' };

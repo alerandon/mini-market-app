@@ -1,12 +1,9 @@
 import { Schema, model, Document } from 'mongoose';
+import { Product as SharedProduct } from '@mini-market/shared';
 
-export interface IProduct extends Document {
-  name: string;
-  price: number;
-  isAvailable: boolean;
-  category: string;
-  image: string;
-}
+export interface IProduct
+  extends Document,
+    Omit<SharedProduct, '_id' | 'createdAt' | 'updatedAt'> {}
 
 const productSchema = new Schema<IProduct>(
   {

@@ -10,11 +10,11 @@ import {
   ProductsGrid,
   Pagination,
 } from '@/components/products';
-import { FilterOptions } from '@/types';
+import { ProductFilterOptions } from '@mini-market/shared';
 
 export default function ProductsPage() {
   // Estado para filtros
-  const [filters, setFilters] = useState<FilterOptions>({
+  const [filters, setFilters] = useState<ProductFilterOptions>({
     search: '',
     sort: 'name',
     order: 'asc',
@@ -74,7 +74,7 @@ export default function ProductsPage() {
 
         {/* Pagination */}
         <Pagination
-          currentPage={filters.page}
+          currentPage={filters.page || 1}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />

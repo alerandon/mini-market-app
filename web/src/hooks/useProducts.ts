@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Product, getProducts } from '@/lib/api';
-import { FilterOptions } from '@/types';
+import { ProductFilterOptions } from '@mini-market/shared';
 
 interface UseProductsResult {
   products: Product[];
@@ -12,7 +12,7 @@ interface UseProductsResult {
   refetch: () => void;
 }
 
-export function useProducts(filters: FilterOptions): UseProductsResult {
+export function useProducts(filters: ProductFilterOptions): UseProductsResult {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,11 +30,17 @@ export function useProducts(filters: FilterOptions): UseProductsResult {
       setLoading(true);
       setError(null);
 
+      // Mapear SortField a los valores permitidos por la API
+      const apiSortField =
+        filters.sort === 'createdAt' || filters.sort === 'updatedAt'
+          ? 'name'
+          : filters.sort;
+
       const response = await getProducts(
         filters.page,
         filters.limit,
         filters.search,
-        filters.sort,
+        apiSortField,
         filters.order,
         filters.available,
       );

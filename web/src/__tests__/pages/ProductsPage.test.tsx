@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import ProductsPage from '../../app/products/page';
 import { useProducts, usePagination } from '../../hooks';
-import { Product } from '../../types';
+import { Product } from '@mini-market/shared';
 
 // Mock de todos los hooks personalizados
 jest.mock('../../hooks', () => ({

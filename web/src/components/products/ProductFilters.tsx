@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FilterOptions } from '@/types';
+import { ProductFilterOptions } from '@mini-market/shared';
 import { SearchIcon, XIcon } from '@/components/ui';
 
 interface ProductFiltersProps {
-  filters: FilterOptions;
-  onFiltersChange: (filters: FilterOptions) => void;
+  filters: ProductFilterOptions;
+  onFiltersChange: (filters: ProductFilterOptions) => void;
   isLoading?: boolean;
 }
 
@@ -15,7 +15,8 @@ export default function ProductFilters({
   onFiltersChange,
   isLoading = false,
 }: ProductFiltersProps) {
-  const [localFilters, setLocalFilters] = useState<FilterOptions>(filters);
+  const [localFilters, setLocalFilters] =
+    useState<ProductFilterOptions>(filters);
 
   // Actualizar filtros locales cuando cambien los filtros externos
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function ProductFilters({
   };
 
   const clearFilters = () => {
-    const resetFilters: FilterOptions = {
+    const resetFilters: ProductFilterOptions = {
       search: '',
       sort: 'name',
       order: 'asc',
@@ -129,7 +130,7 @@ export default function ProductFilters({
           </button>
         </div>
         <p className="mt-1 text-xs text-gray-500">
-          Escribe y presiona "Buscar" o Enter para buscar productos
+          Escribe y presiona &quot;Buscar&quot; o Enter para buscar productos
         </p>
       </div>
 

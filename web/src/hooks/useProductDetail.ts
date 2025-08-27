@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Product, getProductById } from '@/lib/api';
-import { isValidProduct } from '@/types';
+import { isValidProduct } from '@mini-market/shared';
 
 interface UseProductDetailResult {
   product: Product | null;
