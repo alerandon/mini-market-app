@@ -2,8 +2,7 @@
   "private": true,
   "workspaces": [
     "api",
-    "web",
-    "shared"
+    "web"
   ],
   "scripts": {
     "build": "turbo run build",
