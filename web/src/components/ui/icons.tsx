@@ -17,7 +17,8 @@ export function ChevronLeftIcon({
 export function SearchIcon({ size = 20, className = '', ...props }: IconProps) {
   return (
     <Icon size={size} className={className} {...props}>
-      <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
+      <circle cx="9" cy="9" r="7" />
+      <line x1="15" y1="15" x2="21" y2="21" />
     </Icon>
   );
 }

@@ -53,9 +53,7 @@ export const mockFilters = {
   page: 1,
   limit: 10,
   search: '',
-  category: '',
-  minPrice: 0,
-  maxPrice: 1000,
-  sortBy: 'name',
-  sortOrder: 'asc' as const,
+  sort: undefined,
+  order: undefined,
+  available: undefined,
 };

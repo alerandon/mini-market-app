@@ -46,6 +46,7 @@ export function useProductDetail(productId: string): UseProductDetailResult {
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
     // Solo cambiamos el estado visual
+    // TODO: Implementar lógica para guardar el estado de favorito (Este TODO es simulativo)
   };
 
   useEffect(() => {

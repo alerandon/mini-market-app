@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Product, getProducts } from '@/lib/api';
-import { ProductFilterOptions } from '@mini-market/shared';
+import { ProductFilterOptions, SortField } from '@mini-market/shared';
 
 interface UseProductsResult {
   products: Product[];
@@ -31,10 +31,17 @@ export function useProducts(filters: ProductFilterOptions): UseProductsResult {
       setError(null);
 
       // Mapear SortField a los valores permitidos por la API
-      const apiSortField =
-        filters.sort === 'createdAt' || filters.sort === 'updatedAt'
-          ? 'name'
-          : filters.sort;
+      const sortFieldMap: Record<SortField, 'name' | 'price'> = {
+        name: 'name',
+        price: 'price',
+        createdAt: 'name', // Campos no soportados se mapean a 'name'
+        updatedAt: 'name',
+      };
+
+      // Solo mapear si hay un valor de sort definido
+      const apiSortField = filters.sort
+        ? sortFieldMap[filters.sort]
+        : undefined;
 
       const response = await getProducts(
         filters.page,

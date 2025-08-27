@@ -75,14 +75,6 @@ jest.mock('next/navigation', () => ({
   useSearchParams: jest.fn(() => new URLSearchParams()),
 }));
 
-// Mock Next.js Image component
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: function Image(props: any) {
-    return React.createElement('img', props);
-  },
-}));
-
 // Mock Next.js Link component
 jest.mock('next/link', () => ({
   __esModule: true,

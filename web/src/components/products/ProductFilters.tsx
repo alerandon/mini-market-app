@@ -93,6 +93,7 @@ export default function ProductFilters({
             <input
               type="text"
               id="search"
+              aria-describedby="search-description"
               value={localFilters.search}
               onChange={(e) => {
                 handleSearchChange(e.target.value);
@@ -129,7 +130,7 @@ export default function ProductFilters({
             Buscar
           </button>
         </div>
-        <p className="mt-1 text-xs text-gray-500">
+        <p id="search-description" className="mt-1 text-xs text-gray-500">
           Escribe y presiona &quot;Buscar&quot; o Enter para buscar productos
         </p>
       </div>
