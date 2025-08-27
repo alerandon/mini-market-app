@@ -1,5 +1,6 @@
 import { Query } from 'mongoose';
 import { Product, IProduct } from './product.model';
+import { SORTING, SEARCH } from './product.constants';
 
 interface ProductQueryFilters {
   search?: string;
@@ -28,7 +29,7 @@ export function buildProductFilter(filters: ProductQueryFilters): any {
 
   if (filters.search && filters.search.trim()) {
     const searchTerm = filters.search.trim();
-    filter.name = { $regex: searchTerm, $options: 'i' };
+    filter.name = { $regex: searchTerm, $options: SEARCH.OPTIONS };
   }
 
   if (filters.available !== undefined) {
@@ -44,9 +45,12 @@ export function buildProductFilter(filters: ProductQueryFilters): any {
  * @returns Objeto de ordenamiento para MongoDB
  */
 export function buildProductSort(sortOptions: ProductQuerySort): any {
-  const { sort = 'name', order = 'asc' } = sortOptions;
-  const sortDirection = order === 'desc' ? -1 : 1;
-  const sortField = sort === 'price' ? 'price' : 'name';
+  const { sort = SORTING.DEFAULT_FIELD, order = SORTING.DEFAULT_ORDER } =
+    sortOptions;
+  const sortDirection =
+    order === 'desc' ? SORTING.DIRECTIONS.DESC : SORTING.DIRECTIONS.ASC;
+  const sortField =
+    sort === 'price' ? SORTING.FIELDS.PRICE : SORTING.FIELDS.NAME;
   return { [sortField]: sortDirection };
 }
 

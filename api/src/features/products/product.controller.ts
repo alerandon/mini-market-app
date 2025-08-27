@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import * as productService from './product.service';
-import { handleErrorResponse } from '../../utils/error';
+import { PAGINATION } from './product.constants';
 import { ProductPaginationOptions } from '../../types/pagination';
+import { handleErrorResponse, handleNotFoundResponse } from '../../utils/error';
 
 /**
  * Obtiene productos con paginación, búsqueda, filtros y ordenamiento
@@ -9,8 +10,12 @@ import { ProductPaginationOptions } from '../../types/pagination';
  */
 export async function getProducts(req: Request, res: Response): Promise<void> {
   try {
-    const page = req.query.page ? parseInt(req.query.page as string) : 1;
-    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+    const page = req.query.page
+      ? parseInt(req.query.page as string)
+      : PAGINATION.DEFAULT_PAGE;
+    const limit = req.query.limit
+      ? parseInt(req.query.limit as string)
+      : PAGINATION.DEFAULT_LIMIT;
     const search = req.query.search as string;
     const sort = req.query.sort as 'price' | 'name';
     const order = req.query.order as 'asc' | 'desc';
@@ -45,6 +50,11 @@ export async function getProductById(
   try {
     const { id } = req.params;
     const product = await productService.getProductById(id);
+    if (!product) {
+      res.status(404).json(handleNotFoundResponse());
+      return;
+    }
+
     res.status(200).json({ data: product });
   } catch (error) {
     res.status(500).json(handleErrorResponse(error));

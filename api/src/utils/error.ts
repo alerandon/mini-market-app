@@ -8,3 +8,10 @@ export function handleErrorResponse(error: unknown) {
     error: errorMessage,
   };
 }
+
+export function handleNotFoundResponse() {
+  return {
+    success: false,
+    message: 'Recurso no encontrado',
+  };
+}
