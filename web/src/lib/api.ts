@@ -89,13 +89,34 @@ class ApiClient {
     }
   }
 
-  // Obtener todos los productos con paginación
+  // Obtener todos los productos con paginación, búsqueda, filtros y ordenamiento
   async getProducts(
     page: number = 1,
     limit: number = 20,
+    search?: string,
+    sort?: 'price' | 'name',
+    order?: 'asc' | 'desc',
+    available?: boolean,
   ): Promise<PaginationResponse<Product>> {
+    const params = new URLSearchParams();
+    params.set('page', page.toString());
+    params.set('limit', limit.toString());
+
+    if (search && search.trim()) {
+      params.set('search', search.trim());
+    }
+    if (sort) {
+      params.set('sort', sort);
+    }
+    if (order) {
+      params.set('order', order);
+    }
+    if (available !== undefined) {
+      params.set('available', available.toString());
+    }
+
     return this.request<PaginationResponse<Product>>(
-      `/products?page=${page}&limit=${limit}`,
+      `/products?${params.toString()}`,
     );
   }
 
@@ -134,8 +155,14 @@ class ApiClient {
 export const apiClient = new ApiClient(API_BASE_URL);
 
 // Funciones de conveniencia para uso directo
-export const getProducts = (page?: number, limit?: number) =>
-  apiClient.getProducts(page, limit);
+export const getProducts = (
+  page?: number,
+  limit?: number,
+  search?: string,
+  sort?: 'price' | 'name',
+  order?: 'asc' | 'desc',
+  available?: boolean,
+) => apiClient.getProducts(page, limit, search, sort, order, available);
 export const getProductById = (id: string) => apiClient.getProductById(id);
 export const searchProducts = (query: string, page?: number, limit?: number) =>
   apiClient.searchProducts(query, page, limit);

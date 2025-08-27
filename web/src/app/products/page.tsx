@@ -1,17 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
+import ProductFilters, { FilterOptions } from '@/components/ProductFilters';
 import { Product, getProducts } from '@/lib/api';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [isClient, setIsClient] = useState(false);
+
+  // Estado para filtros
+  const [filters, setFilters] = useState<FilterOptions>({
+    search: '',
+    sort: 'name',
+    order: 'asc',
+    available: undefined,
+    page: 1,
+    limit: 12,
+  });
 
   // Asegurar que estamos en el cliente
   useEffect(() => {
@@ -30,19 +41,19 @@ export default function ProductsPage() {
   );
 
   useEffect(() => {
-    console.log('⚡ useEffect ejecutándose - currentPage:', currentPage);
+    console.log('⚡ useEffect ejecutándose - filters:', filters);
     console.log('🌐 Window disponible:', typeof window !== 'undefined');
     console.log('🌐 isClient:', isClient);
 
     // Asegurar que estamos en el cliente antes de hacer la llamada
     if (isClient && typeof window !== 'undefined') {
-      fetchProducts(currentPage);
+      fetchProducts();
     }
-  }, [currentPage, isClient]);
+  }, [filters, isClient]);
 
-  const fetchProducts = async (page: number) => {
+  const fetchProducts = useCallback(async () => {
     try {
-      console.log('🔍 Iniciando fetchProducts, página:', page);
+      console.log('🔍 Iniciando fetchProducts con filtros:', filters);
       console.log(
         '🌐 Verificando entorno:',
         typeof window !== 'undefined' ? 'cliente' : 'servidor',
@@ -52,16 +63,26 @@ export default function ProductsPage() {
       setError(null);
 
       console.log('📡 Llamando a getProducts...');
-      const response = await getProducts(page, 12); // 12 productos por página
+      const response = await getProducts(
+        filters.page,
+        filters.limit,
+        filters.search,
+        filters.sort,
+        filters.order,
+        filters.available,
+      );
       console.log('✅ Respuesta recibida:', response);
 
       setProducts(response.data);
       setTotalPages(response.pagination.totalPages);
+      setTotalItems(response.pagination.totalItems);
       console.log(
         '🎯 Estado actualizado - productos:',
         response.data.length,
         'páginas:',
         response.pagination.totalPages,
+        'total:',
+        response.pagination.totalItems,
       );
     } catch (err) {
       console.error('❌ Error en fetchProducts:', err);
@@ -85,10 +106,15 @@ export default function ProductsPage() {
       setLoading(false);
       console.log('🏁 fetchProducts terminado');
     }
-  };
+  }, [filters]);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    setFilters((prev) => ({ ...prev, page }));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleFiltersChange = (newFilters: FilterOptions) => {
+    setFilters(newFilters);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -136,7 +162,7 @@ export default function ProductsPage() {
               </h2>
               <p className="text-red-600 mb-6">{error}</p>
               <button
-                onClick={() => fetchProducts(currentPage)}
+                onClick={() => fetchProducts()}
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg"
               >
                 Reintentar
@@ -172,6 +198,37 @@ export default function ProductsPage() {
           </div>
         </div>
 
+        {/* Barra de filtros */}
+        <ProductFilters
+          filters={filters}
+          onFiltersChange={handleFiltersChange}
+          isLoading={loading}
+        />
+
+        {/* Información de resultados */}
+        {!loading && !error && (
+          <div className="mb-6 text-center">
+            <p className="text-gray-600">
+              {totalItems > 0 ? (
+                <>
+                  Mostrando {products.length} de {totalItems} productos
+                  {filters.search && (
+                    <span> que contienen "{filters.search}"</span>
+                  )}
+                  {filters.available !== undefined && (
+                    <span>
+                      {' '}
+                      ({filters.available ? 'con stock' : 'sin stock'})
+                    </span>
+                  )}
+                </>
+              ) : (
+                'No se encontraron productos'
+              )}
+            </p>
+          </div>
+        )}
+
         {/* Products Grid */}
         {products.length === 0 ? (
           <div className="text-center py-16">
@@ -185,7 +242,7 @@ export default function ProductsPage() {
                 nuevamente más tarde.
               </p>
               <button
-                onClick={() => fetchProducts(currentPage)}
+                onClick={() => fetchProducts()}
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg"
               >
                 Actualizar
@@ -208,8 +265,8 @@ export default function ProductsPage() {
             <nav className="bg-white rounded-lg shadow-md p-4">
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
+                  onClick={() => handlePageChange(filters.page - 1)}
+                  disabled={filters.page === 1}
                   className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Anterior
@@ -222,7 +279,7 @@ export default function ProductsPage() {
                         key={page}
                         onClick={() => handlePageChange(page)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          currentPage === page
+                          filters.page === page
                             ? 'bg-blue-600 text-white shadow-lg'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
@@ -234,8 +291,8 @@ export default function ProductsPage() {
                 </div>
 
                 <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
+                  onClick={() => handlePageChange(filters.page + 1)}
+                  disabled={filters.page === totalPages}
                   className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Siguiente

@@ -27,7 +27,9 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8 mt-16">
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="text-3xl mb-4">📱</div>
-              <h3 className="text-xl font-semibold mb-2">Electrónicos</h3>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">
+                Electrónicos
+              </h3>
               <p className="text-gray-600">
                 Los últimos dispositivos y gadgets tecnológicos
               </p>
@@ -35,7 +37,9 @@ export default function Home() {
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="text-3xl mb-4">🏠</div>
-              <h3 className="text-xl font-semibold mb-2">Hogar</h3>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">
+                Hogar
+              </h3>
               <p className="text-gray-600">
                 Todo lo que necesitas para tu hogar y estilo de vida
               </p>
@@ -43,7 +47,9 @@ export default function Home() {
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="text-3xl mb-4">🚚</div>
-              <h3 className="text-xl font-semibold mb-2">Envío Rápido</h3>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">
+                Envío Rápido
+              </h3>
               <p className="text-gray-600">
                 Entrega rápida y segura a tu puerta
               </p>
