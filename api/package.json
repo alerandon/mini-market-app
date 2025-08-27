@@ -6,22 +6,34 @@
   "scripts": {
     "dev": "nodemon --signal SIGTERM",
     "test": "jest",
+    "test:unit": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --watchAll=false",
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "seed": "tsx src/seed.ts"
   },
   "dependencies": {
+    "@types/uuid": "^10.0.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongoose": "^8.3.5",
     "nanoid": "^5.1.5",
+    "uuid": "^11.1.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.3.0",
+    "@types/supertest": "^6.0.3",
+    "jest": "^30.0.5",
     "nodemon": "^3.1.9",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.1",
     "tsx": "^4.19.2",
     "typescript": "^5.9.2"
   }
