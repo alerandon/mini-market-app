@@ -1,8 +1,8 @@
-import dotenv from 'dotenv';
-import connectDB from './database';
-import { Product } from './products/product.model';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
+import connectDB from './database';
+import { Product } from './features/products/product.model';
 
 dotenv.config();
 

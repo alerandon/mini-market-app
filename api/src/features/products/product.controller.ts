@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as productService from './product.service';
-import { handleErrorResponse } from '../utils/error';
+import { handleErrorResponse } from '../../utils/error';
 
 /**
  * Obtiene productos con paginación

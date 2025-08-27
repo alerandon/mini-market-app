@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import * as productController from '../../products/product.controller';
-import * as productService from '../../products/product.service';
+import * as productController from '../../features/products/product.controller';
+import * as productService from '../../features/products/product.service';
 import { mockProduct, mockProducts, createMockPaginatedResult } from '../mocks';
 
-jest.mock('../../products/product.service');
+jest.mock('../../features/products/product.service');
 const mockProductService = productService as jest.Mocked<typeof productService>;
 
 describe('Product Controller', () => {

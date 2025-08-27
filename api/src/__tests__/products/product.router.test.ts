@@ -1,10 +1,10 @@
 import request from 'supertest';
 import express from 'express';
-import productRouter from '../../products/product.router';
-import * as productService from '../../products/product.service';
+import productRouter from '../../features/products/product.router';
+import * as productService from '../../features/products/product.service';
 import { mockProduct, mockProducts, createMockPaginatedResult } from '../mocks';
 
-jest.mock('../../products/product.service');
+jest.mock('../../features/products/product.service');
 const mockProductService = productService as jest.Mocked<typeof productService>;
 
 const app = express();

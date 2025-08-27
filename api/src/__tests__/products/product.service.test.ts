@@ -1,8 +1,8 @@
-import * as productService from '../../products/product.service';
+import * as productService from '../../features/products/product.service';
 import { mockProduct, mockProducts, createMockPaginatedResult } from '../mocks';
-import { Product } from '../../products/product.model';
+import { Product } from '../../features/products/product.model';
 
-jest.mock('../../products/product.model', () => ({
+jest.mock('../../features/products/product.model', () => ({
   Product: {
     countDocuments: jest.fn(),
     find: jest.fn().mockReturnValue({

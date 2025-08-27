@@ -1,5 +1,5 @@
 import { Product, IProduct } from './product.model';
-import { PaginatedResult, PaginationOptions } from '../types/pagination';
+import { PaginatedResult, PaginationOptions } from '../../types/pagination';
 
 /**
  * Obtiene productos con paginación
