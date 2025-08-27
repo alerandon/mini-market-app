@@ -1,15 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-export interface FilterOptions {
-  search: string;
-  sort: 'price' | 'name';
-  order: 'asc' | 'desc';
-  available: boolean | undefined;
-  page: number;
-  limit: number;
-}
+import { FilterOptions } from '@/types';
 
 interface ProductFiltersProps {
   filters: FilterOptions;

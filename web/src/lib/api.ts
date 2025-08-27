@@ -1,12 +1,6 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
-console.log('🔧 API_BASE_URL configurada:', API_BASE_URL);
-console.log(
-  '🔧 process.env.NEXT_PUBLIC_API_URL:',
-  process.env.NEXT_PUBLIC_API_URL,
-);
-
 export interface Product {
   _id: string;
   name: string;
@@ -35,7 +29,6 @@ class ApiClient {
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
-    console.log('🔧 ApiClient creado con baseUrl:', baseUrl);
   }
 
   private async request<T>(
@@ -43,11 +36,6 @@ class ApiClient {
     options?: RequestInit,
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    console.log('📡 Llamando a:', url);
-    console.log(
-      '🌐 Entorno:',
-      typeof window !== 'undefined' ? 'cliente' : 'servidor',
-    );
 
     try {
       // Verificar si estamos en el cliente
@@ -64,9 +52,6 @@ class ApiClient {
         ...options,
       });
 
-      console.log('📊 Response status:', response.status);
-      console.log('📊 Response ok:', response.ok);
-
       if (!response.ok) {
         const errorText = await response.text();
         console.error('❌ Response error:', errorText);
@@ -76,7 +61,6 @@ class ApiClient {
       }
 
       const data = await response.json();
-      console.log('✅ Data recibida:', data);
       return data;
     } catch (error) {
       console.error('❌ API request failed:', error);
