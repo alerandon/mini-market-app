@@ -1,6 +1,12 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
+console.log('🔧 API_BASE_URL configurada:', API_BASE_URL);
+console.log(
+  '🔧 process.env.NEXT_PUBLIC_API_URL:',
+  process.env.NEXT_PUBLIC_API_URL,
+);
+
 export interface Product {
   _id: string;
   name: string;
@@ -29,6 +35,7 @@ class ApiClient {
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
+    console.log('🔧 ApiClient creado con baseUrl:', baseUrl);
   }
 
   private async request<T>(
@@ -36,24 +43,48 @@ class ApiClient {
     options?: RequestInit,
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
+    console.log('📡 Llamando a:', url);
+    console.log(
+      '🌐 Entorno:',
+      typeof window !== 'undefined' ? 'cliente' : 'servidor',
+    );
 
     try {
+      // Verificar si estamos en el cliente
+      if (typeof window === 'undefined') {
+        console.warn('⚠️ Request ejecutándose en el servidor (SSR)');
+      }
+
       const response = await fetch(url, {
         headers: {
           'Content-Type': 'application/json',
           ...options?.headers,
         },
+        cache: 'no-store', // Evitar problemas de caché en Next.js
         ...options,
       });
 
+      console.log('📊 Response status:', response.status);
+      console.log('📊 Response ok:', response.ok);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('❌ Response error:', errorText);
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorText}`,
+        );
       }
 
       const data = await response.json();
+      console.log('✅ Data recibida:', data);
       return data;
     } catch (error) {
-      console.error('API request failed:', error);
+      console.error('❌ API request failed:', error);
+      console.error('❌ Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        url,
+        endpoint,
+      });
       throw error;
     }
   }
@@ -70,7 +101,8 @@ class ApiClient {
 
   // Obtener un producto por ID
   async getProductById(id: string): Promise<Product> {
-    return this.request<Product>(`/products/${id}`);
+    const response = await this.request<{ data: Product }>(`/products/${id}`);
+    return response.data;
   }
 
   // Buscar productos por término
