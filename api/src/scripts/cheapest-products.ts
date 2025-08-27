@@ -1,14 +1,9 @@
-import path from 'path';
 import dotenv from 'dotenv';
-import fs from 'fs/promises';
-import { fileURLToPath } from 'url';
-import { Product } from '@mini-market/shared';
+import { FlattenMaps } from 'mongoose';
 import connectDB from '../database';
+import { IProduct, Product } from '../features/products/product.model';
 
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * Función getTopCheapestAvailable
@@ -16,14 +11,13 @@ const __dirname = path.dirname(__filename);
  * - Ordena por precio ascendente
  * - Devuelve los N más baratos (default 3)
  */
-function getTopCheapestAvailable(
-  products: Product[],
+async function getTopCheapestAvailable(
   top: number = 3,
-): Product[] {
-  return products
-    .filter((product) => product.isAvailable)
-    .sort((a, b) => a.price - b.price)
-    .slice(0, top);
+): Promise<FlattenMaps<IProduct>[]> {
+  return Product.find({ isAvailable: true })
+    .sort({ price: 1 })
+    .limit(top)
+    .lean();
 }
 
 async function main() {
@@ -40,16 +34,11 @@ async function main() {
       return;
     }
 
-    // Cargar productos
-    const dataPath = path.join(__dirname, '../data/products.json');
-    const data = await fs.readFile(dataPath, 'utf-8');
-    const products: Product[] = JSON.parse(data);
-
     // Conectar a la base de datos
     await connectDB();
 
     // Ejecutar función
-    const result = getTopCheapestAvailable(products, top);
+    const result = await getTopCheapestAvailable(top);
 
     // Mostrar resultado
     console.log(`Top ${top} productos más baratos disponibles:`);
