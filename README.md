@@ -10,9 +10,9 @@ Una aplicación full-stack moderna para gestión de productos de un mini mercado
 - [Instalación y Configuración](#-instalación-y-configuración)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
 - [Scripts Disponibles](#-scripts-disponibles)
+- [Algoritmo Utilitario: Productos Más Baratos](#-algoritmo-utilitario-productos-más-baratos)
 - [Testing](#-testing)
 - [Decisiones de Desarrollo](#-decisiones-de-desarrollo)
-- [Contribución](#-contribución)
 
 ## ✨ Características
 
@@ -43,7 +43,6 @@ mini-market-app/
 - **Runtime**: Node.js con TypeScript
 - **Framework**: Express.js
 - **Base de datos**: MongoDB con Mongoose
-- **Validación**: Zod
 - **Testing**: Jest + Supertest
 - **Desarrollo**: Nodemon para hot-reload
 
@@ -53,8 +52,6 @@ mini-market-app/
 - Arquitectura por features (`features/products/`)
 - Middlewares para CORS y manejo de errores
 - Scripts de seeding y utilidades
-- Validación de esquemas con Zod
-- Cobertura completa de testing
 
 ### 🌐 Web (`/web`)
 
@@ -93,14 +90,28 @@ mini-market-app/
 
 ### Variables de Entorno
 
-Crear un archivo `.env` en el directorio `/api`:
+#### API (`/api`)
+
+Crea un archivo `.env` en el directorio `/api`:
 
 ```env
 # Base de datos
-DB_URI=mongodb://localhost:27017/mini-market
+DB_URI=mongodb://127.0.0.1:27017/mini-market-app
 
 # Servidor
-PORT=3000
+PORT=3001
+
+# Entorno
+NODE_ENV=development
+```
+
+#### Web (`/web`)
+
+Crea un archivo `.env` en el directorio `/web`:
+
+```env
+# URL base de la API
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
 
 # Entorno
 NODE_ENV=development
@@ -111,7 +122,7 @@ NODE_ENV=development
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/alerandon/mini-market-app.git
 cd mini-market-app
 ```
 
@@ -151,13 +162,9 @@ npm run dev:web
 ### 5. Acceder a la aplicación
 
 - **Frontend**: http://localhost:3000
-- **API**: http://localhost:3000/api
-- **API Health Check**: http://localhost:3000/api/health
+- **API**: http://localhost:3001/api
 
 ## 📁 Estructura del Proyecto
-
-<details>
-<summary>Expandir estructura completa</summary>
 
 ```
 mini-market-app/
@@ -175,46 +182,45 @@ mini-market-app/
 │       ├── database.ts       # Configuración de MongoDB
 │       ├── router.ts         # Router principal
 │       ├── features/
-│       │   └── products/     # Feature de productos
-│       │       ├── product.model.ts     # Modelo de datos
-│       │       ├── product.service.ts   # Lógica de negocio
-│       │       ├── product.controller.ts # Controladores
-│       │       ├── product.router.ts    # Rutas
-│       │       └── product.*.ts         # Helpers y constantes
+│       │   └── products/                   # Feature de productos
+│       │       ├── product.model.ts        # Modelo de datos
+│       │       ├── product.service.ts      # Lógica de negocio
+│       │       ├── product.controller.ts   # Controladores
+│       │       ├── product.router.ts       # Rutas
+│       │       ├── product.helpers.ts      # Helpers
+│       │       └── product.constants.ts    # Constantes
 │       ├── scripts/
-│       │   ├── seed.ts       # Script de seeding
-│       │   └── cheapest-products.ts
+│       │   ├── seed.ts                     # Script de seeding
+│       │   └── cheapest-products.ts        # Script para algoritmo utilitario de getCheapestProducts
 │       ├── data/
-│       │   └── products.json # Datos iniciales
-│       └── __tests__/        # Tests de la API
+│       │   └── products.json   # Datos iniciales
+│       └── __tests__/          # Tests de la API
 │
-├── web/                      # Frontend Next.js
-│   ├── package.json          # Dependencias del frontend
-│   ├── next.config.ts        # Configuración de Next.js
-│   ├── tailwind.config.js    # Configuración de Tailwind
-│   ├── jest.config.js        # Configuración de testing
+├── web/                        # Frontend Next.js
+│   ├── package.json            # Dependencias del frontend
+│   ├── next.config.ts          # Configuración de Next.js
+│   ├── tailwind.config.js      # Configuración de Tailwind
+│   ├── jest.config.js          # Configuración de testing
 │   └── src/
-│       ├── app/              # App Router de Next.js
-│       │   ├── layout.tsx    # Layout principal
-│       │   ├── page.tsx      # Página de inicio
-│       │   └── products/     # Páginas de productos
-│       ├── components/       # Componentes React
-│       │   ├── layout/       # Componentes de layout
-│       │   ├── products/     # Componentes de productos
-│       │   └── ui/           # Componentes de UI
-│       ├── hooks/            # Hooks personalizados
-│       ├── lib/              # Utilidades y configuración
-│       ├── types/            # Tipos específicos del frontend
-│       └── __tests__/        # Tests del frontend
+│       ├── app/                # App Router de Next.js
+│       │   ├── layout.tsx      # Layout principal
+│       │   ├── page.tsx        # Página de inicio
+│       │   └── products/       # Páginas de productos
+│       ├── components/         # Componentes React
+│       │   ├── layout/         # Componentes de layout
+│       │   ├── products/       # Componentes de productos
+│       │   └── ui/             # Componentes de UI
+│       ├── hooks/              # Hooks personalizados
+│       ├── lib/                # Utilidades y configuración
+│       ├── types/              # Tipos específicos del frontend
+│       └── __tests__/          # Tests del frontend
 │
-└── shared/                   # Paquete compartido
-    ├── package.json          # Configuración del paquete
-    ├── tsconfig.json         # Configuración TypeScript
-    ├── types.ts              # Tipos compartidos
-    └── index.ts              # Exportaciones principales
+└── shared/                     # Paquete compartido
+    ├── package.json            # Configuración del paquete
+    ├── tsconfig.json           # Configuración TypeScript
+    ├── types.ts                # Tipos compartidos
+    └── index.ts                # Exportaciones principales
 ```
-
-</details>
 
 ## � Scripts Disponibles
 
@@ -241,6 +247,88 @@ npm run dev:web       # Desarrollo solo frontend
 npm run test:web      # Tests solo frontend
 npm run web:build     # Build del frontend
 ```
+
+## 🔧 Algoritmo Utilitario: Productos Más Baratos
+
+El proyecto incluye un **script utilitario** que implementa la función `getTopCheapestAvailable` para obtener los productos más baratos disponibles en el inventario.
+
+### ⚙️ Funcionalidad del Algoritmo
+
+El algoritmo realiza las siguientes operaciones:
+
+1. **Filtrado**: Selecciona únicamente productos con `isAvailable: true`
+2. **Ordenamiento**: Ordena los productos por precio de manera ascendente
+3. **Limitación**: Retorna los N productos más baratos (configurable)
+4. **Optimización**: Utiliza `.lean()` para mejorar el rendimiento de consulta
+
+### 📋 Prerequisitos
+
+**⚠️ IMPORTANTE**: La API debe estar ejecutándose antes de correr el script utilitario.
+
+```bash
+# Asegúrate de que la API esté corriendo
+npm run dev:api
+```
+
+### 🚀 Uso del Script
+
+#### Opción 1: Usar el script con configuración por defecto (3 productos)
+
+```bash
+npm run api:cheapest
+```
+
+#### Opción 2: Especificar el número de productos a obtener
+
+```bash
+# Desde la raíz del proyecto
+npm run api:cheapest -- 5
+
+# O directamente desde el workspace de api
+cd api
+npm run cheapest 10
+```
+
+### 📝 Paso a Paso de Ejecución
+
+1. **Validar entorno**:
+
+   ```bash
+   # Verificar que MongoDB esté ejecutándose
+   # Verificar que las variables de entorno estén configuradas
+   ```
+
+2. **Iniciar la API** (en terminal separado):
+
+   ```bash
+   npm run dev:api
+   ```
+
+3. **Ejecutar el script utilitario**:
+
+   ```bash
+   # Obtener los 3 productos más baratos (por defecto)
+   npm run api:cheapest
+
+   # O especificar cantidad personalizada
+   npm run api:cheapest -- 7
+   ```
+
+### 📊 Ejemplo de Salida
+
+```bash
+Top 3 productos más baratos disponibles:
+1. Leche Descremada - $2.50
+2. Pan Integral - $3.00
+3. Yogurt Natural - $4.25
+```
+
+### 🛠️ Validaciones Implementadas
+
+- **Validación de argumentos**: Verifica que el número ingresado sea válido y mayor a 0
+- **Manejo de errores**: Captura y reporta errores de conexión a base de datos
+- **Conexión a BD**: Establece conexión automática antes de ejecutar consultas
+- **Finalización limpia**: Cierra la conexión y termina el proceso correctamente
 
 ## 🧪 Testing
 
@@ -274,20 +362,16 @@ npm run test:watch
 
 ## 🤔 Decisiones de Desarrollo
 
-<!-- Esta sección será completada con las decisiones técnicas específicas del proyecto -->
+### En el proyecto de `/api`:
 
-### Arquitectura
+- Podemos observar que se maneja por features. Independientemente del manejo de un solo feature, en este caso con `products`, es ideal dado a que las entidades o features manejados se organizan de manera modular de tal manera que podemos manejar varios archivos relacionados a cada feature, incluso fuera de la convención estándar de solo controller, service y router. Esto permite un crecimiento escalable.
+- Los archivos tanto de `seed.ts` como `cheapest-products.ts` se delegan a una carpeta de `/scripts`, debido a que ambos cumplen el mismo flujo de correr su código solo al momento de ejecutar un script de npm.
 
-_[Espacio para documentar decisiones arquitecturales]_
+### En el proyecto de `/web`:
 
-### Tecnologías Elegidas
+- Los archivos de `pages.tsx` tienen organizados su código tsx por componentes separados como secciones. Este enfoque es esencial más alla del manejo de componentes de código que conocemos como en los cards, barras de navegación o inputs, ya que al final logra el objetivo de manejar un código más ordenado y mantenible.
+- En el hook de `useProductDetail.ts` observamos que la función que maneja la lógica del botón de "Agregar a favoritos" (toggleFavorite) contiene un comentario de **TODO**, este mismo es una simulación para efectos de dar demostración de como documentar las funcionalidades pendientes, cuando se tienen que relegar a menor prioridad para poder entregar un prototipo.
 
-_[Espacio para justificar la elección del stack tecnológico]_
+### Con los types compartidos en `/shared`:
 
-### Patrones de Diseño
-
-_[Espacio para documentar patrones implementados]_
-
-### Performance y Optimización
-
-_[Espacio para documentar estrategias de optimización]_
+- Todo lo relacionado a `Products` o `Pagination` se maneja ahi incluso (en casos especificos) se manejen tipos exclusivos de un solo proyecto (solo usandose en `/api` por ejemplo), ya que esto nos permite centralizar todo en una sola fuente de la verdad, y facilita la organización.
