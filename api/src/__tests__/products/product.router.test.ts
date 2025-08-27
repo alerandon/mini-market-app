@@ -2,7 +2,11 @@ import request from 'supertest';
 import express from 'express';
 import productRouter from '../../features/products/product.router';
 import * as productService from '../../features/products/product.service';
-import { mockProduct, mockProducts, createMockPaginatedResult } from '../mocks';
+import {
+  mockProduct,
+  mockProducts,
+  createMockPaginatedProductResult,
+} from '../mocks';
 
 jest.mock('../../features/products/product.service');
 const mockProductService = productService as jest.Mocked<typeof productService>;
@@ -18,7 +22,7 @@ describe('Product Routes', () => {
 
   describe('GET /products', () => {
     it('debería obtener productos con paginación por defecto', async () => {
-      const mockResult = createMockPaginatedResult(mockProducts);
+      const mockResult = createMockPaginatedProductResult(mockProducts);
       mockProductService.getProducts.mockResolvedValue(mockResult);
 
       const response = await request(app).get('/products').expect(200);
@@ -31,7 +35,7 @@ describe('Product Routes', () => {
     });
 
     it('debería respetar parámetros de paginación', async () => {
-      const mockResult = createMockPaginatedResult(
+      const mockResult = createMockPaginatedProductResult(
         mockProducts.slice(0, 2),
         2,
         2,
@@ -50,7 +54,7 @@ describe('Product Routes', () => {
     });
 
     it('debería manejar página sin resultados', async () => {
-      const mockResult = createMockPaginatedResult([]);
+      const mockResult = createMockPaginatedProductResult([]);
       mockProductService.getProducts.mockResolvedValue(mockResult);
 
       const response = await request(app).get('/products?page=99').expect(200);

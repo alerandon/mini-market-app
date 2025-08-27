@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as productService from './product.service';
 import { PAGINATION } from './product.constants';
-import { ProductPaginationOptions } from '../../types/pagination';
+import { ApiProductFilterOptions } from '@mini-market/shared';
 import { handleErrorResponse, handleNotFoundResponse } from '../../utils/error';
 
 /**
@@ -23,7 +23,7 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
       ? req.query.available === 'true'
       : undefined;
 
-    const getProductArgs: ProductPaginationOptions = {
+    const getProductArgs: ApiProductFilterOptions = {
       page,
       limit,
       search,

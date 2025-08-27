@@ -1,9 +1,9 @@
 import { Product, IProduct } from './product.model';
 import { PAGINATION, SORTING } from './product.constants';
 import {
-  PaginatedResult,
-  ProductPaginationOptions,
-} from '../../types/pagination';
+  PaginatedResponse,
+  ApiProductFilterOptions,
+} from '@mini-market/shared';
 import {
   buildProductQuery,
   buildProductFilter,
@@ -13,11 +13,11 @@ import {
 /**
  * Obtiene productos con paginación, búsqueda, filtros y ordenamiento
  * @param options - Opciones de paginación, búsqueda, filtros y ordenamiento
- * @returns Promise<PaginatedResult<IProduct>>
+ * @returns Promise<PaginatedResponse<IProduct>>
  */
 export async function getProducts(
-  options: ProductPaginationOptions = {},
-): Promise<PaginatedResult<IProduct>> {
+  options: ApiProductFilterOptions = {},
+): Promise<PaginatedResponse<IProduct>> {
   const {
     page = PAGINATION.DEFAULT_PAGE,
     limit = PAGINATION.DEFAULT_LIMIT,
@@ -52,7 +52,7 @@ export async function getProducts(
   ]);
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const response: PaginatedResult<IProduct> = {
+  const response: PaginatedResponse<IProduct> = {
     data: products,
     pagination: {
       currentPage,

@@ -4,69 +4,69 @@
     "price": 999.99,
     "isAvailable": true,
     "category": "Electrónicos",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=iPhone+15+Pro"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=iPhone+15+Pro"
   },
   {
     "name": "Samsung Galaxy S24",
     "price": 899.5,
     "isAvailable": true,
     "category": "Electrónicos",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=Galaxy+S24"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=Galaxy+S24"
   },
   {
     "name": "MacBook Air M3",
     "price": 1299.0,
     "isAvailable": false,
     "category": "Computadoras",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=MacBook+Air+M3"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=MacBook+Air+M3"
   },
   {
     "name": "Nike Air Force 1",
     "price": 120.75,
     "isAvailable": true,
     "category": "Calzado",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=Nike+AF1"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=Nike+AF1"
   },
   {
     "name": "Adidas Ultraboost 22",
     "price": 150.0,
     "isAvailable": true,
     "category": "Calzado",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=Ultraboost+22"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=Ultraboost+22"
   },
   {
     "name": "Coca Cola 2L",
     "price": 2.5,
     "isAvailable": true,
     "category": "Bebidas",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=Coca+Cola+2L"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=Coca+Cola+2L"
   },
   {
     "name": "Agua Mineral 500ml",
     "price": 1.25,
     "isAvailable": true,
     "category": "Bebidas",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=Agua+Mineral"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=Agua+Mineral"
   },
   {
     "name": "Pan Integral",
     "price": 3.75,
     "isAvailable": false,
     "category": "Panadería",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=Pan+Integral"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=Pan+Integral"
   },
   {
     "name": "Leche Entera 1L",
     "price": 2.99,
     "isAvailable": true,
     "category": "Lácteos",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=Leche+Entera"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=Leche+Entera"
   },
   {
     "name": "Queso Cheddar 200g",
     "price": 4.5,
     "isAvailable": true,
     "category": "Lácteos",
-    "image": "https://dummyimage.com/300x300/cccccc/000000&text=Queso+Cheddar"
+    "image": "https://dummyimage.com/600x600/cccccc/000000?text=Queso+Cheddar"
   }
 ]
