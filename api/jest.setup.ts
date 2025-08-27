@@ -14,7 +14,23 @@ jest.mock('mongoose', () => ({
     collections: {},
   },
   model: jest.fn(),
-  Schema: jest.fn(),
+  Schema: jest.fn().mockImplementation(() => ({
+    index: jest.fn(),
+    set: jest.fn(),
+    pre: jest.fn(),
+    post: jest.fn(),
+    plugin: jest.fn(),
+    add: jest.fn(),
+    remove: jest.fn(),
+    path: jest.fn(),
+    paths: {},
+    tree: {},
+    discriminators: {},
+    methods: {},
+    statics: {},
+    virtuals: {},
+    options: {},
+  })),
 }));
 
 jest.setTimeout(5000);

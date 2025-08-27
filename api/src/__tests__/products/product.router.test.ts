@@ -96,12 +96,15 @@ describe('Product Routes', () => {
 
       const response = await request(app)
         .get('/products/non-existent-id')
-        .expect(200);
+        .expect(404);
 
       expect(mockProductService.getProductById).toHaveBeenCalledWith(
         'non-existent-id',
       );
-      expect(response.body).toEqual({ data: null });
+      expect(response.body).toEqual({
+        success: false,
+        message: 'Recurso no encontrado',
+      });
     });
 
     it('debería manejar errores del servicio', async () => {

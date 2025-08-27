@@ -125,7 +125,7 @@ describe('Product Controller', () => {
       expect(mockJson).toHaveBeenCalledWith({ data: mockProduct });
     });
 
-    it('debería retornar null cuando el producto no existe', async () => {
+    it('debería retornar 404 cuando el producto no existe', async () => {
       mockProductService.getProductById.mockResolvedValue(null);
 
       mockRequest.params = { id: 'non-existent-id' };
@@ -138,8 +138,11 @@ describe('Product Controller', () => {
       expect(mockProductService.getProductById).toHaveBeenCalledWith(
         'non-existent-id',
       );
-      expect(mockStatus).toHaveBeenCalledWith(200);
-      expect(mockJson).toHaveBeenCalledWith({ data: null });
+      expect(mockStatus).toHaveBeenCalledWith(404);
+      expect(mockJson).toHaveBeenCalledWith({
+        success: false,
+        message: 'Recurso no encontrado',
+      });
     });
 
     it('debería manejar errores del servicio', async () => {

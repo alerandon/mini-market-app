@@ -6,6 +6,7 @@ jest.mock('../../features/products/product.model', () => ({
   Product: {
     countDocuments: jest.fn(),
     find: jest.fn().mockReturnValue({
+      sort: jest.fn().mockReturnThis(),
       skip: jest.fn().mockReturnThis(),
       limit: jest.fn().mockReturnThis(),
       lean: jest.fn(),
@@ -27,6 +28,7 @@ describe('Product Service', () => {
       );
 
       const mockQuery = {
+        sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue(mockProducts),
@@ -35,8 +37,9 @@ describe('Product Service', () => {
 
       const result = await productService.getProducts({ page: 1, limit: 10 });
 
-      expect(Product.countDocuments).toHaveBeenCalledWith();
-      expect(Product.find).toHaveBeenCalledWith();
+      expect(Product.countDocuments).toHaveBeenCalledWith({});
+      expect(Product.find).toHaveBeenCalledWith({});
+      expect(mockQuery.sort).toHaveBeenCalled();
       expect(mockQuery.skip).toHaveBeenCalledWith(0);
       expect(mockQuery.limit).toHaveBeenCalledWith(10);
       expect(mockQuery.lean).toHaveBeenCalled();
@@ -53,6 +56,7 @@ describe('Product Service', () => {
       );
 
       const mockQuery = {
+        sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue(page2Products),
@@ -61,8 +65,9 @@ describe('Product Service', () => {
 
       const result = await productService.getProducts({ page: 2, limit: 2 });
 
-      expect(Product.countDocuments).toHaveBeenCalledWith();
-      expect(Product.find).toHaveBeenCalledWith();
+      expect(Product.countDocuments).toHaveBeenCalledWith({});
+      expect(Product.find).toHaveBeenCalledWith({});
+      expect(mockQuery.sort).toHaveBeenCalled();
       expect(mockQuery.skip).toHaveBeenCalledWith(2);
       expect(mockQuery.limit).toHaveBeenCalledWith(2);
       expect(mockQuery.lean).toHaveBeenCalled();
@@ -76,6 +81,7 @@ describe('Product Service', () => {
       );
 
       const mockQuery = {
+        sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue(mockProducts),
@@ -84,6 +90,7 @@ describe('Product Service', () => {
 
       const result = await productService.getProducts({ page: -1, limit: 0 });
 
+      expect(mockQuery.sort).toHaveBeenCalled();
       expect(mockQuery.skip).toHaveBeenCalledWith(0);
       expect(mockQuery.limit).toHaveBeenCalledWith(1);
       expect(mockQuery.lean).toHaveBeenCalled();
@@ -111,9 +118,6 @@ describe('Product Service', () => {
     });
 
     it('debería manejar ID inválido', async () => {
-      const error = new Error('ID inválido');
-      (Product.findById as jest.Mock).mockRejectedValue(error);
-
       await expect(productService.getProductById('')).rejects.toThrow(
         'ID inválido',
       );

@@ -71,10 +71,14 @@ export async function getProducts(
  * Obtiene un producto por su ID de MongoDB
  * @param productId - ID único del producto (ObjectId de MongoDB)
  * @returns Promise<IProduct | null>
+ * @throws Error cuando el ID es inválido
  */
 export async function getProductById(
   productId: string,
 ): Promise<IProduct | null> {
+  const notValidID = !productId || productId.trim() === '';
+  if (notValidID) throw new Error('ID inválido');
+
   const product = await Product.findById(productId).catch(() => null);
   return product;
 }
