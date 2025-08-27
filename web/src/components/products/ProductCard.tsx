@@ -19,7 +19,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           width={200}
           height={200}
           className="w-full h-48 object-cover"
-          priority={false}
         />
 
         {/* Badge de stock */}
