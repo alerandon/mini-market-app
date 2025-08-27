@@ -9,7 +9,19 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "dev:api": "turbo run dev --filter=api",
-    "dev:web": "turbo run dev --filter=web"
+    "dev:web": "turbo run dev --filter=web",
+    "test": "turbo run test",
+    "test:api": "turbo run test --filter=api",
+    "test:web": "turbo run test --filter=web",
+    "test:watch": "turbo run test:watch",
+    "test:watch:api": "turbo run test:watch --filter=api",
+    "test:watch:web": "turbo run test:watch --filter=web",
+    "api:seed": "npm run seed --workspace=api",
+    "api:cheapest": "npm run cheapest --workspace=api",
+    "api:build": "turbo run build --filter=api",
+    "api:start": "npm run start --workspace=api",
+    "web:build": "turbo run build --filter=web",
+    "web:start": "npm run start --workspace=web"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.8.0",
